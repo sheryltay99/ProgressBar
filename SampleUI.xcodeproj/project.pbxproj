@@ -15,6 +15,16 @@
 		218003A025C2961200CAA323 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2180039E25C2961200CAA323 /* LaunchScreen.storyboard */; };
 		218003AB25C2961200CAA323 /* SampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218003AA25C2961200CAA323 /* SampleUITests.swift */; };
 		218003B625C2961200CAA323 /* SampleUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218003B525C2961200CAA323 /* SampleUIUITests.swift */; };
+		21A693FA25CCE5A200F9A35B /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A693F925CCE5A200F9A35B /* ProgressBar.swift */; };
+		21A693FF25CD3A1E00F9A35B /* CodedProgressBarButtonOneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A693FE25CD3A1E00F9A35B /* CodedProgressBarButtonOneViewController.swift */; };
+		21A6940425CD45A400F9A35B /* CodedProgressBarButtonTwoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A6940325CD45A400F9A35B /* CodedProgressBarButtonTwoViewController.swift */; };
+		21A6940D25D0CE0000F9A35B /* CodedProgressBarButtonThreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A6940C25D0CE0000F9A35B /* CodedProgressBarButtonThreeViewController.swift */; };
+		21A6941525D0CE1F00F9A35B /* CodedProgressBarButtonFourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A6941425D0CE1F00F9A35B /* CodedProgressBarButtonFourViewController.swift */; };
+		21A6941A25D0CE2B00F9A35B /* CodedProgressBarButtonFiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A6941925D0CE2B00F9A35B /* CodedProgressBarButtonFiveViewController.swift */; };
+		21A6941F25D0CE3800F9A35B /* CodedProgressBarButtonSixViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A6941E25D0CE3800F9A35B /* CodedProgressBarButtonSixViewController.swift */; };
+		21A6942425D0CE4900F9A35B /* CodedProgressBarButtonSevenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A6942325D0CE4900F9A35B /* CodedProgressBarButtonSevenViewController.swift */; };
+		21A6942E25D1170000F9A35B /* SubclassedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A6942D25D1170000F9A35B /* SubclassedButton.swift */; };
+		21CA2F7425D26C8500AE7775 /* CodedProgressBarButtonEightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CA2F7325D26C8500AE7775 /* CodedProgressBarButtonEightViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +59,16 @@
 		218003B125C2961200CAA323 /* SampleUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		218003B525C2961200CAA323 /* SampleUIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleUIUITests.swift; sourceTree = "<group>"; };
 		218003B725C2961200CAA323 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		21A693F925CCE5A200F9A35B /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		21A693FE25CD3A1E00F9A35B /* CodedProgressBarButtonOneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodedProgressBarButtonOneViewController.swift; sourceTree = "<group>"; };
+		21A6940325CD45A400F9A35B /* CodedProgressBarButtonTwoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodedProgressBarButtonTwoViewController.swift; sourceTree = "<group>"; };
+		21A6940C25D0CE0000F9A35B /* CodedProgressBarButtonThreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodedProgressBarButtonThreeViewController.swift; sourceTree = "<group>"; };
+		21A6941425D0CE1F00F9A35B /* CodedProgressBarButtonFourViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodedProgressBarButtonFourViewController.swift; sourceTree = "<group>"; };
+		21A6941925D0CE2B00F9A35B /* CodedProgressBarButtonFiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodedProgressBarButtonFiveViewController.swift; sourceTree = "<group>"; };
+		21A6941E25D0CE3800F9A35B /* CodedProgressBarButtonSixViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodedProgressBarButtonSixViewController.swift; sourceTree = "<group>"; };
+		21A6942325D0CE4900F9A35B /* CodedProgressBarButtonSevenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodedProgressBarButtonSevenViewController.swift; sourceTree = "<group>"; };
+		21A6942D25D1170000F9A35B /* SubclassedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubclassedButton.swift; sourceTree = "<group>"; };
+		21CA2F7325D26C8500AE7775 /* CodedProgressBarButtonEightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodedProgressBarButtonEightViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,10 +119,13 @@
 		2180039225C2960D00CAA323 /* SampleUI */ = {
 			isa = PBXGroup;
 			children = (
+				21A6940825D0CDCA00F9A35B /* CodedProgressBarButtonViewControllers */,
 				2180039325C2960D00CAA323 /* AppDelegate.swift */,
 				2180039525C2960D00CAA323 /* SceneDelegate.swift */,
 				2180039725C2960D00CAA323 /* ViewController.swift */,
 				2180039925C2960D00CAA323 /* Main.storyboard */,
+				21A693F925CCE5A200F9A35B /* ProgressBar.swift */,
+				21A6942D25D1170000F9A35B /* SubclassedButton.swift */,
 				2180039C25C2961200CAA323 /* Assets.xcassets */,
 				2180039E25C2961200CAA323 /* LaunchScreen.storyboard */,
 				218003A125C2961200CAA323 /* Info.plist */,
@@ -126,6 +149,21 @@
 				218003B725C2961200CAA323 /* Info.plist */,
 			);
 			path = SampleUIUITests;
+			sourceTree = "<group>";
+		};
+		21A6940825D0CDCA00F9A35B /* CodedProgressBarButtonViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				21A693FE25CD3A1E00F9A35B /* CodedProgressBarButtonOneViewController.swift */,
+				21A6940325CD45A400F9A35B /* CodedProgressBarButtonTwoViewController.swift */,
+				21A6940C25D0CE0000F9A35B /* CodedProgressBarButtonThreeViewController.swift */,
+				21A6941425D0CE1F00F9A35B /* CodedProgressBarButtonFourViewController.swift */,
+				21A6941925D0CE2B00F9A35B /* CodedProgressBarButtonFiveViewController.swift */,
+				21A6941E25D0CE3800F9A35B /* CodedProgressBarButtonSixViewController.swift */,
+				21A6942325D0CE4900F9A35B /* CodedProgressBarButtonSevenViewController.swift */,
+				21CA2F7325D26C8500AE7775 /* CodedProgressBarButtonEightViewController.swift */,
+			);
+			path = CodedProgressBarButtonViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,8 +297,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				2180039825C2960D00CAA323 /* ViewController.swift in Sources */,
+				21A6941A25D0CE2B00F9A35B /* CodedProgressBarButtonFiveViewController.swift in Sources */,
+				21A6940425CD45A400F9A35B /* CodedProgressBarButtonTwoViewController.swift in Sources */,
+				21A6942425D0CE4900F9A35B /* CodedProgressBarButtonSevenViewController.swift in Sources */,
+				21A6941F25D0CE3800F9A35B /* CodedProgressBarButtonSixViewController.swift in Sources */,
 				2180039425C2960D00CAA323 /* AppDelegate.swift in Sources */,
+				21A6941525D0CE1F00F9A35B /* CodedProgressBarButtonFourViewController.swift in Sources */,
+				21A693FA25CCE5A200F9A35B /* ProgressBar.swift in Sources */,
 				2180039625C2960D00CAA323 /* SceneDelegate.swift in Sources */,
+				21CA2F7425D26C8500AE7775 /* CodedProgressBarButtonEightViewController.swift in Sources */,
+				21A693FF25CD3A1E00F9A35B /* CodedProgressBarButtonOneViewController.swift in Sources */,
+				21A6940D25D0CE0000F9A35B /* CodedProgressBarButtonThreeViewController.swift in Sources */,
+				21A6942E25D1170000F9A35B /* SubclassedButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
