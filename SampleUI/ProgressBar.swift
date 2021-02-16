@@ -17,198 +17,121 @@ class ProgressBar {
     
     weak var delegate: progressbarprotocol?
     
-    private let steps: Float
+    private let steps: Int
     private var trackTintColor: UIColor = UIColor.systemGray5
-    private var tintColor: UIColor = UIColor.systemBlue
+    private var progressColor: UIColor = UIColor.systemBlue
+    private let view: UIView
+    private let currentStep: Int
     
-    init(steps:Float) {
-        self.steps = steps
-    }
-    init(totalSteps:Float,
+    init(totalSteps: Int,
          designType: DesignType = .default,
-         currentStep: Float = 0,
+         barPosition: BarPosition = .default,
+         currentStep: Int = 0,
          view: UIView,
          delegate: progressbarprotocol?) {
         
-        steps = totalSteps
+        self.steps = totalSteps
         self.delegate = delegate
-        addBarWithDesign(designType: designType,
-                         currentStep: currentStep,
-                         view: view)
+        self.currentStep = currentStep
+        self.view = view
+        addBarWithDesign(designType: designType, barPosition: barPosition)
     }
     
-    func addBarWithDesign(designType: DesignType,
-                          currentStep: Float,
-                          view: UIView,
-                          delegate: progressbarprotocol? = nil) {
+    private func addBarWithDesign(designType: DesignType, barPosition: BarPosition) {
         
         switch designType {
         case .dashed:
-            addDashedBar(currentStep: currentStep, view: view)
+            addDashedBar(barPosition: barPosition)
         case .circles:
-            addBarWithCircles(currentStep: currentStep, view: view)
+            addBarWithCircles(barPosition: barPosition)
         case .plain:
-            addPlainBar(currentStep: currentStep, view: view)
+            addPlainBar(barPosition: barPosition)
         case .default:
-            addBarWithCircles(currentStep: currentStep, view: view)
+            addBarWithCircles(barPosition: barPosition)
         }
     }
     
-    private func addPlainBar(currentStep: Float, view: UIView) {
-        createProgressBar(currentStep: currentStep, view: view, topConstant: CGFloat(0), sideConstant: CGFloat(0))
+    private func addPlainBar(barPosition: BarPosition) {
+        createProgressBar(barPosition: barPosition, sideConstant: CGFloat(0))
     }
     
-    private func addDashedBar(currentStep: Float,
-                              view: UIView) {
+    private func addDashedBar(barPosition: BarPosition) {
         
-        let spaceBetweenBars = CGFloat(0) // spacing width between bars
-        let totalSpace = spaceBetweenBars * CGFloat(steps - 1) // total space between bars
-        let barWidth = (view.frame.size.width - totalSpace) / CGFloat(steps)
+//        let spaceBetweenBars = CGFloat(0) // spacing width between bars
+//        let totalSpace = spaceBetweenBars * CGFloat(steps - 1) // total space between bars
+        let barWidth = view.frame.size.width / CGFloat(steps)
         let barHeight = CGFloat(5)
         
         var currentLeadingAnchor = CGFloat(0)
         
-        for i in 1...Int(steps) {
-            if i < Int(currentStep) { // create green dash button
+        for i in 1...steps {
+            
+            //initialise button
+            let button = SubclassedButton()
+            button.index = i
+            
+            button.setBackgroundImage(UIImage(systemName: "minus"), for: .normal)
+            button.clipsToBounds = true
+            view.addSubview(button)
+            setConstraints(barView: button, currentLeadingAnchor: currentLeadingAnchor, width: barWidth, height: barHeight, barPosition: barPosition)
+            
+            if i < currentStep { // create green dash button
                 
-                let button = SubclassedButton()
-                
-                button.index = i
-                button.setBackgroundImage(UIImage(systemName: "minus"), for: .normal)
                 button.tintColor = UIColor.systemGreen
-                button.clipsToBounds = true
                 button.addTarget(self, action: #selector(pressed), for: .touchUpInside)
                 
-                view.addSubview(button)
-                
-                setDashConstraints(dashView: button, currentLeadingAnchor: currentLeadingAnchor, view: view, width: barWidth)
-                let heightAnchor = button.heightAnchor.constraint(equalToConstant: barHeight)
-                heightAnchor.isActive = true
-                
-            } else if i == Int(currentStep) { // create blue dash button
-                let button = SubclassedButton()
-                button.index = i
-                
-                guard let image = UIImage(systemName: "minus") else {
-                    print("minus system image does not exist")
-                    return
-                }
-                button.setBackgroundImage(image, for: .normal)
+            } else if i == currentStep { // create blue dash button
                 
                 button.tintColor = UIColor.systemBlue
-                
-                button.clipsToBounds = true
-                
                 button.addTarget(self, action: #selector(pressed), for: .touchUpInside)
                 
-                view.addSubview(button)
-                
-                setDashConstraints(dashView: button, currentLeadingAnchor: currentLeadingAnchor, view: view, width: barWidth)
-                
-                let heightAnchor = button.heightAnchor.constraint(equalToConstant: barHeight)
-                heightAnchor.isActive = true
-                
             } else { // create grey dash button
-                let button = SubclassedButton()
-                button.index = i
-                
-                guard let image = UIImage(systemName: "minus") else {
-                    print("minus system image does not exist")
-                    return
-                }
-                button.setBackgroundImage(image, for: .normal)
                 
                 button.tintColor = UIColor.systemGray5
                 
-                button.clipsToBounds = true
-                
-                view.addSubview(button)
-                
-                setDashConstraints(dashView: button, currentLeadingAnchor: currentLeadingAnchor, view: view, width: barWidth)
-                
-                let heightAnchor = button.heightAnchor.constraint(equalToConstant: barHeight)
-                heightAnchor.isActive = true
             }
             
-            currentLeadingAnchor += spaceBetweenBars + barWidth
+            currentLeadingAnchor += barWidth
         }
     }
     
-    private func addBarWithCircles(currentStep: Float,
-                                   view: UIView) {
+    private func addBarWithCircles(barPosition: BarPosition) {
         
         let sideSpace = CGFloat(4) // spacing between first button and side of view
         let size = CGFloat(34)
         let buttonSpacing = (view.frame.size.width - (2 * sideSpace) - (CGFloat(steps) * size)) / CGFloat(steps - 1) //spacing between buttons
         
-        // draw progress bar
-        createProgressBar(currentStep: currentStep, view: view, topConstant: size / CGFloat(2), sideConstant: CGFloat(4))
+        // draw progress bar with position of half a circle away from top of circle
+        createProgressBar(barPosition: .custom(position: Double(size) / 2 - 2, from: barPosition), sideConstant: CGFloat(4))
         
         // draw buttons on progress bar
         var currentLeadingAnchor = sideSpace
         
-        for i in 1...Int(steps) {
+        for i in 1...steps {
             
-            if i < Int(currentStep) { // create green button with checkmark
-                //                let button = UIButton(type: .custom)
-                let button = SubclassedButton()
-                button.index = i
+            let button = SubclassedButton()
+            button.index = i
+            
+            setCircleAttributes(button: button, size: size)
+            view.addSubview(button)
+            setConstraints(barView: button, currentLeadingAnchor: currentLeadingAnchor, width: size, height: size, barPosition: barPosition)
+            
+            if i < currentStep { // create green button with checkmark
                 
-                guard let image = UIImage(systemName: "checkmark.circle.fill") else {
-                    print("checkmark system image does not exist")
-                    return
-                }
-                button.setBackgroundImage(image, for: .normal)
-                
+                button.setBackgroundImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
                 button.tintColor = UIColor.systemGreen
-                
-                setCircleAttributes(button: button, size: size)
-                
-                //add target
                 button.addTarget(self, action: #selector(pressed), for: .touchUpInside)
                 
-                view.addSubview(button)
+            } else if i == currentStep { // create blue filled button with current number
                 
-                setCircleConstraints(circleView: button, currentLeadingAnchor: currentLeadingAnchor, view: view, size: size)
-                
-            } else if i == Int(currentStep) { // create blue filled button with current number
-                let button = SubclassedButton()
-                button.index = i
-                
-                guard let image = UIImage(systemName: "\(i).circle.fill") else {
-                    print("number system image does not exist")
-                    return
-                }
-                
-                button.setBackgroundImage(image, for: .normal)
-                
+                button.setBackgroundImage(UIImage(systemName: "\(i).circle.fill"), for: .normal)
                 button.tintColor = UIColor.systemBlue
-                
-                setCircleAttributes(button: button, size: size)
-                
-                //add target
                 button.addTarget(self, action: #selector(pressed), for: .touchUpInside)
-                
-                view.addSubview(button)
-                
-                setCircleConstraints(circleView: button, currentLeadingAnchor: currentLeadingAnchor, view: view, size: size)
                 
             } else { // create grey buttons with current number that don't present any segues
-                let button = SubclassedButton()
-                
-                guard let image = UIImage(systemName: "\(i).circle") else {
-                    print("number system image does not exist")
-                    return
-                }
-                button.setBackgroundImage(image, for: .normal)
-                
+               
+                button.setBackgroundImage(UIImage(systemName: "\(i).circle"), for: .normal)
                 button.tintColor = UIColor.opaqueSeparator
-                
-                setCircleAttributes(button: button, size: size)
-                
-                view.addSubview(button)
-                
-                setCircleConstraints(circleView: button, currentLeadingAnchor: currentLeadingAnchor, view: view, size: size)
                 
             }
             
@@ -216,28 +139,22 @@ class ProgressBar {
         }
     }
     
-    private func createProgressBar(currentStep: Float, view: UIView, topConstant: CGFloat, sideConstant: CGFloat) {
+    private func createProgressBar(barPosition: BarPosition, sideConstant: CGFloat) {
         let progressBar = UIProgressView()
         
-        progressBar.setProgress((currentStep - 1) / (steps - 1), animated: false)
+        progressBar.setProgress(Float((currentStep - 1)) / Float((steps - 1)), animated: false)
         
         progressBar.trackTintColor = trackTintColor
         
-        progressBar.tintColor = tintColor
+        progressBar.tintColor = progressColor
         
         view.addSubview(progressBar)
         
         progressBar.translatesAutoresizingMaskIntoConstraints = false
         
         let width = view.frame.size.width - (2 * sideConstant)
-        let widthAnchor = progressBar.widthAnchor.constraint(equalToConstant: width)
-        widthAnchor.isActive = true
+        setConstraints(barView: progressBar, currentLeadingAnchor: sideConstant, width: width, barPosition: barPosition)
         
-        let leadingAnchor = progressBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sideConstant)
-        leadingAnchor.isActive = true
-        
-        let topAnchor = progressBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstant) 
-        topAnchor.isActive = true
     }
     
     /// Setting color and size of button
@@ -247,38 +164,86 @@ class ProgressBar {
         button.clipsToBounds = true
     }
     
-    
-    /// Setting constraints of circle
-    private func setCircleConstraints(circleView: UIView, currentLeadingAnchor: CGFloat, view: UIView, size: CGFloat) {
-        circleView.translatesAutoresizingMaskIntoConstraints = false
+    /// Setting constraints of progress bar
+    private func setConstraints(barView: UIView, currentLeadingAnchor: CGFloat, width: CGFloat, height: CGFloat = CGFloat(5), barPosition: BarPosition) {
+        barView.translatesAutoresizingMaskIntoConstraints = false
         
-        let topAnchor = circleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        topAnchor.isActive = true
-        
-        let leadingAnchor = circleView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: currentLeadingAnchor)
+        let leadingAnchor = barView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: currentLeadingAnchor)
         leadingAnchor.isActive = true
         
-        let widthAnchor = circleView.widthAnchor.constraint(equalToConstant: size)
+        let widthAnchor = barView.widthAnchor.constraint(equalToConstant: width)
         widthAnchor.isActive = true
         
-        let heightAnchor = circleView.heightAnchor.constraint(equalToConstant: size)
+        let heightAnchor = barView.heightAnchor.constraint(equalToConstant: height)
         heightAnchor.isActive = true
+        
+        switch barPosition {
+        case .top:
+            let topAnchor = barView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            topAnchor.isActive = true
+        case .bottom:
+            let bottomAnchor = barView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            bottomAnchor.isActive = true
+        case .center:
+            let centerConstant = view.frame.height / 2
+            let topAnchor = barView.topAnchor.constraint(equalTo: view.topAnchor, constant: centerConstant)
+            topAnchor.isActive = true
+        case .custom(position: let constant, from: let pos):
+            switch pos {
+            case .top:
+                let topAnchor = barView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: CGFloat(constant))
+                topAnchor.isActive = true
+            case .bottom:
+                let bottomAnchor = barView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: CGFloat(-constant))
+                bottomAnchor.isActive = true
+            case .center:
+                let centerConstant = view.frame.height / 2
+                let topAnchor = barView.topAnchor.constraint(equalTo: view.topAnchor, constant: centerConstant + CGFloat(constant))
+                topAnchor.isActive = true
+            default:
+                let topAnchor = barView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: CGFloat(constant))
+                topAnchor.isActive = true
+            }
+        default:
+            let topAnchor = barView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            topAnchor.isActive = true
+        }
     }
     
-    /// Setting constraints of dash
-    private func setDashConstraints(dashView: UIView, currentLeadingAnchor: CGFloat, view: UIView, width: CGFloat) {
-        
-        dashView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let topAnchor = dashView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        topAnchor.isActive = true
-        
-        let leadingAnchor = dashView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: currentLeadingAnchor)
-        leadingAnchor.isActive = true
-        
-        let widthAnchor = dashView.widthAnchor.constraint(equalToConstant: width)
-        widthAnchor.isActive = true
-    }
+//    /// Setting constraints of circle
+//    private func setCircleConstraints(circleView: UIView, currentLeadingAnchor: CGFloat, size: CGFloat) {
+//        circleView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        let topAnchor = circleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+//        topAnchor.isActive = true
+//
+//        let leadingAnchor = circleView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: currentLeadingAnchor)
+//        leadingAnchor.isActive = true
+//
+//        let widthAnchor = circleView.widthAnchor.constraint(equalToConstant: size)
+//        widthAnchor.isActive = true
+//
+//        let heightAnchor = circleView.heightAnchor.constraint(equalToConstant: size)
+//        heightAnchor.isActive = true
+//    }
+//
+//    /// Setting constraints of dash
+//    private func setDashConstraints(dashView: UIView, currentLeadingAnchor: CGFloat, width: CGFloat, height: CGFloat) {
+//
+//        dashView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        let topAnchor = dashView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+//        topAnchor.isActive = true
+//
+//        let leadingAnchor = dashView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: currentLeadingAnchor)
+//        leadingAnchor.isActive = true
+//
+//        let widthAnchor = dashView.widthAnchor.constraint(equalToConstant: width)
+//        widthAnchor.isActive = true
+//
+//        let heightAnchor = dashView.heightAnchor.constraint(equalToConstant: height)
+//        heightAnchor.isActive = true
+//    }
     
     private func didTapIndex(index: Int) {
         delegate?.didTapIndex(index: index)
@@ -298,5 +263,14 @@ enum DesignType {
     case dashed
     case circles
     case plain
+}
+
+// MARK: bar position enum
+indirect enum BarPosition {
+    case `default`
+    case top
+    case center
+    case bottom
+    case custom(position: Double, from: BarPosition)
 }
 

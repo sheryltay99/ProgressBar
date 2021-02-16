@@ -8,11 +8,19 @@
 import UIKit
 
 class CodedProgressBarButtonFourViewController: UIViewController {
+    var progressBar: ProgressBar?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        progressBar = ProgressBar(totalSteps: 8,
+                                  designType: .dashed,
+                                  barPosition: .center,
+                                  currentStep: 4,
+                                  view: view,
+                                  delegate: self)
     }
     
 
@@ -25,5 +33,12 @@ class CodedProgressBarButtonFourViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
+}
+
+extension CodedProgressBarButtonFourViewController: progressbarprotocol {
+    func didTapIndex(index: Int) {
+        print(index)
+    }
 
 }

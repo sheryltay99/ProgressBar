@@ -5,4 +5,8 @@
 //  Created by Sheryl Tay on 8/2/21.
 //
 
-import Foundation
+import UIKit
+
+class SubclassedButton: UIButton {
+    var index: Int?
+}

@@ -2,17 +2,25 @@
 //  CodedProgressBarButtonEightViewController.swift
 //  SampleUI
 //
-//  Created by Sheryl Tay on 9/2/21.
+//  Created by Sheryl Tay on 8/2/21.
 //
 
 import UIKit
 
 class CodedProgressBarButtonEightViewController: UIViewController {
+    var progressBar: ProgressBar?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        progressBar = ProgressBar(totalSteps: 8,
+                                  designType: .dashed,
+                                  barPosition: .center,
+                                  currentStep: 8,
+                                  view: view,
+                                  delegate: self)
     }
     
 
@@ -26,4 +34,10 @@ class CodedProgressBarButtonEightViewController: UIViewController {
     }
     */
 
+}
+
+extension CodedProgressBarButtonEightViewController: progressbarprotocol {
+    func didTapIndex(index: Int) {
+        print(index)
+    }
 }

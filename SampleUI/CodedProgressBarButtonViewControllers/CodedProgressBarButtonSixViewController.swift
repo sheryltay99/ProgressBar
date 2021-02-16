@@ -8,11 +8,19 @@
 import UIKit
 
 class CodedProgressBarButtonSixViewController: UIViewController {
+    var progressBar: ProgressBar?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        progressBar = ProgressBar(totalSteps: 8,
+                                  designType: .plain,
+                                  barPosition: .bottom,
+                                  currentStep: 6,
+                                  view: view,
+                                  delegate: self)
     }
     
 
@@ -26,4 +34,10 @@ class CodedProgressBarButtonSixViewController: UIViewController {
     }
     */
 
+}
+
+extension CodedProgressBarButtonSixViewController: progressbarprotocol {
+    func didTapIndex(index: Int) {
+        print(index)
+    }
 }
